@@ -32,6 +32,19 @@ $truncateInventoryTable = $csvtools->truncateInventoryTable($inventoryDbTool, $c
 $getWarehouseId = $csvtools->getWarehouseId($csvData);
 $getShelves = $csvtools->getShelves($csvData);
 
+    foreach($getWarehouseId as $warehouse) {
+
+        echo 'Warehouse: ' .  $warehouse;
+    }
+
+    foreach($getShelves as $shelf) {
+
+        echo 'Shelf: ' .  $shelf;
+    }
+
+    
+
+
 $updateShelves = $shelvesDbTool->updateShelves($getWarehouseId,$getShelves);
 
 

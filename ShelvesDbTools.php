@@ -35,21 +35,28 @@ class ShelvesDbTools {
     }
 
     function updateShelves($warehouseIds, $shelves)
-    {
+{
     $query = "UPDATE shelves SET warehouse_id = ? WHERE shelf_line = ?";
     $stmt = $this->mysqli->prepare($query);
     if ($stmt) {
-        foreach ($warehouseIds as $warehouseId) {
-            foreach ($shelves as $shelf) {
-                $stmt->bind_param("is", $warehouseId, $shelf);
-                $stmt->execute();
-            }
+        $warehouseCount = count($warehouseIds);
+        $shelfCount = count($shelves);
+        $minCount = min($warehouseCount, $shelfCount);
+
+        for ($i = 0; $i < $minCount; $i++) {
+            $warehouseId = $warehouseIds[$i];
+            $shelf = $shelves[$i];
+            
+            $stmt->bind_param("is", $warehouseId, $shelf);
+            $stmt->execute();
         }
+
         $stmt->close();
     } else {
         echo "Hiba történt a frissítés közben: " . $this->mysqli->error;
     }
-    }
+}
+
 
 
 }
