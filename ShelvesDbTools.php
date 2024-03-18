@@ -35,28 +35,44 @@ class ShelvesDbTools {
     }
 
     function updateShelves($warehouseIds, $shelves)
-{
-    $query = "UPDATE shelves SET warehouse_id = ? WHERE shelf_line = ?";
-    $stmt = $this->mysqli->prepare($query);
-    if ($stmt) {
-        $warehouseCount = count($warehouseIds);
-        $shelfCount = count($shelves);
-        $minCount = min($warehouseCount, $shelfCount);
+    {
+        $sql = "UPDATE " . self::DBTABLE . " SET warehouse_id = ? WHERE shelf_line = ?";
+        $stmt = $this->mysqli->prepare($sql);
+        $stmt->bind_param("is", $warehouseId, $shelfLine);
 
-        for ($i = 0; $i < $minCount; $i++) {
-            $warehouseId = $warehouseIds[$i];
-            $shelf = $shelves[$i];
+        foreach ($shelves as $shelf) {
             
-            $stmt->bind_param("is", $warehouseId, $shelf);
+            $warehouseId = $this->findWarehouseId($shelf, $warehouseIds);
+            if ($warehouseId === false) {
+                continue;
+            }
+
+            $shelfLine = $shelf;
             $stmt->execute();
         }
 
-        $stmt->close();
-    } else {
-        echo "Hiba történt a frissítés közben: " . $this->mysqli->error;
+        return true;
     }
-}
 
+    private function findWarehouseId($shelf, $warehouseIds)
+    {
+        $shelfPrefix = substr($shelf, 0, 1);
 
+        $warehouseMapping = [
+            'T' => 1,
+            'H' => 2,
+            'F' => 3,
+            'B' => 4
+        ];
+
+        if (array_key_exists($shelfPrefix, $warehouseMapping)) {
+            $warehouseId = $warehouseMapping[$shelfPrefix];
+            if (in_array($warehouseId, $warehouseIds)) {
+                return $warehouseId;
+            }
+        }
+
+        return false;
+    }
 
 }

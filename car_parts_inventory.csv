@@ -1,31 +1,31 @@
 warehouse_name,shelf_line,item_name,quantity,warehouse_id
-Toyota Warehouse,Line 1,Tire,50,1
-Toyota Warehouse,Line 2,Engine Oil,100,1
-Toyota Warehouse,Line 3,Brake Pads,30,1
-Toyota Warehouse,Line 1,Headlights,40,1
-Toyota Warehouse,Line 2,Air Filters,60,1
-Toyota Warehouse,Line 3,Spark Plugs,80,1
-Toyota Warehouse,Line 1,Battery,25,1
-Toyota Warehouse,Line 2,Transmission Fluid,35,1
-Toyota Warehouse,Line 3,Wiper Blades,45,1
-Honda Warehouse,Line 1,Brake Calipers,20,2
-Honda Warehouse,Line 2,Exhaust System,15,2
-Honda Warehouse,Line 3,Radiator,25,2
-Honda Warehouse,Line 1,Steering Wheel,30,2
-Honda Warehouse,Line 2,Shock Absorbers,40,2
-Honda Warehouse,Line 3,Alternator,20,2
-Honda Warehouse,Line 1,Starter Motor,10,2
-Honda Warehouse,Line 2,Fuel Pump,20,2
-Honda Warehouse,Line 3,Carburetor,15,2
-Ford Warehouse,Line 1,Door Handles,50,2
-Ford Warehouse,Line 2,Seat Covers,40,3
-Ford Warehouse,Line 3,Muffler,30,3
-Ford Warehouse,Line 1,Wheel Bearings,25,3
-Ford Warehouse,Line 2,Clutch Kit,20,3
-Ford Warehouse,Line 3,Power Steering Pump,15,3
-BMW Warehouse,Line 1,Navigation System,30,4
-BMW Warehouse,Line 2,Brake Rotors,35,4
-BMW Warehouse,Line 3,Drive Shaft,40,4
-BMW Warehouse,Line 1,Control Arms,25,4
-BMW Warehouse,Line 2,Head Gasket,20,4
-BMW Warehouse,Line 3,Fuel Injector,15,4
+Toyota Warehouse,T_Line_1,Tire,50,1
+Toyota Warehouse,T_Line_2,Engine Oil,100,1
+Toyota Warehouse,T_Line_3,Brake Pads,30,1
+Toyota Warehouse,T_Line_4,Headlights,40,1
+Toyota Warehouse,T_Line_5,Air Filters,60,1
+Toyota Warehouse,T_Line_6,Spark Plugs,80,1
+Toyota Warehouse,T_Line_7,Battery,25,1
+Toyota Warehouse,T_Line_8,Transmission Fluid,35,1
+Toyota Warehouse,T_Line_9,Wiper Blades,45,1
+Honda Warehouse,H_Line_1,Brake Calipers,20,2
+Honda Warehouse,H_Line_2,Exhaust System,15,2
+Honda Warehouse,H_Line_3,Radiator,25,2
+Honda Warehouse,H_Line_4,Steering Wheel,30,2
+Honda Warehouse,H_Line_5,Shock Absorbers,40,2
+Honda Warehouse,H_Line_6,Alternator,20,2
+Honda Warehouse,H_Line_7,Starter Motor,10,2
+Honda Warehouse,H_Line_8,Fuel Pump,20,2
+Honda Warehouse,H_Line_9,Carburetor,15,2
+Ford Warehouse,F_Line_1,Door Handles,50,3
+Ford Warehouse,F_Line_2,Seat Covers,40,3
+Ford Warehouse,F_Line_3,Muffler,30,3
+Ford Warehouse,F_Line_4,Wheel Bearings,25,3
+Ford Warehouse,F_Line_5,Clutch Kit,20,3
+Ford Warehouse,F_Line_6,Power Steering Pump,15,3
+BMW Warehouse,B_Line_1,Navigation System,30,4
+BMW Warehouse,B_Line_2,Brake Rotors,35,4
+BMW Warehouse,B_Line_3,Drive Shaft,40,4
+BMW Warehouse,B_Line_4,Control Arms,25,4
+BMW Warehouse,B_Line_5,Head Gasket,20,4
+BMW Warehouse,B_Line_6,Fuel Injector,15,4
