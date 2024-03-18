@@ -33,4 +33,20 @@ class WarehousesDbTools {
         return $result;
     }
 
+    public function getAllWarehouses()
+    {
+        $warehouses = [];
+
+        $sql = "SELECT * FROM warehouses";
+        $result = $this->mysqli->query($sql);
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $warehouses[] = $row;
+            }
+        }
+
+        return $warehouses;
+    }
+
 }

@@ -3,6 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+require_once('AbstractPage.php');
 require_once('CsvTools.php');
 require_once('WarehousesDbTools.php');
 require_once('InventoryDbTools.php');
@@ -34,7 +35,7 @@ $getShelves = $csvtools->getShelves($csvData);
 
 $updateShelves = $shelvesDbTool->updateShelves($getWarehouseId,$getShelves);
 
-$updateInventory = $inventoryDbTool->updateInventory();
+
 
 
 

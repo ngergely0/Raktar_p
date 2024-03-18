@@ -36,54 +36,5 @@ class InventoryDbTools {
         return $result;
     }
 
-    function updateInventory()
-    {
-        // Fetch shelf data
-        $shelvesData = $this->mysqli->query("SELECT id, shelf_line FROM shelves");
-        if ($shelvesData === false) {
-            echo "Error retrieving shelves data";
-            return false;
-        }
-
-        // Create a mapping of shelf_line to shelf_id
-        $shelfMapping = [];
-        while ($shelf = $shelvesData->fetch_assoc()) {
-            $shelfMapping[$shelf['shelf_line']] = $shelf['id'];
-        }
-
-        // Fetch inventory data
-        $inventoryData = $this->mysqli->query("SELECT id, shelf_line FROM inventory");
-        if ($inventoryData === false) {
-            echo "Error retrieving inventory data";
-            return false;
-        }
-
-        // Prepare update statement
-        $updateStmt = $this->mysqli->prepare("UPDATE inventory SET shelf_id = ? WHERE id = ?");
-        if (!$updateStmt) {
-            echo "Error preparing update statement";
-            return false;
-        }
-
-        // Update inventory items using mapping
-        while ($item = $inventoryData->fetch_assoc()) {
-            $itemId = $item['id'];
-            $shelfLine = $item['shelf_line'];
-
-            // Check if shelf_line exists in the mapping
-            if (isset($shelfMapping[$shelfLine])) {
-                $shelfId = $shelfMapping[$shelfLine];
-                $updateStmt->bind_param("ii", $shelfId, $itemId);
-                $result = $updateStmt->execute();
-                if (!$result) {
-                    echo "Error updating inventory item with ID $itemId";
-                }
-            } else {
-                echo "Shelf ID not found for shelf line $shelfLine";
-            }
-        }
-
-        return true;
-    }
     
 }
