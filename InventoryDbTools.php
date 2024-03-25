@@ -19,7 +19,7 @@ class InventoryDbTools {
 
     function createInventory($itemName,$Qty)
     {
-        $sql = "INSERT INTO " . self::DBTABLE . " (item_name,quantity) VALUES (?, ?)";
+        $sql = "INSERT INTO " . self::DBTABLE . " (item_name,quantity,min_quantity) VALUES (?, ?, 10)";
         $stmt = $this->mysqli->prepare($sql);
         $stmt->bind_param("si", $itemName, $Qty);
         $result = $stmt->execute();
@@ -33,6 +33,12 @@ class InventoryDbTools {
     function truncateInventory()
     {
         $result = $this->mysqli->query("TRUNCATE TABLE " . self::DBTABLE);
+        return $result;
+    }
+
+    function deleteInventory()
+    {
+        $result = $this->mysqli->query("DROP TABLE " . self::DBTABLE);
         return $result;
     }
 

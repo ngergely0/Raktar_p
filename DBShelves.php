@@ -9,7 +9,7 @@ class DBShelves extends DB implements ShelvesInterface
 {
 
     public function createTable(){
-        $query = 'CREATE TABLE IF NOT EXISTS shelves (id int AUTO_INCREMENT PRIMARY KEY, shelf_line varchar(50), warehouse_id int NOT NULL)';
+        $query = 'CREATE TABLE IF NOT EXISTS shelves (id int AUTO_INCREMENT PRIMARY KEY, shelf_line varchar(50), warehouse_id int NOT NULL, item_name varchar(50))';
         return $this->mysqli->query($query);
     }
 

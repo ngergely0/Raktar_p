@@ -33,6 +33,12 @@ class WarehousesDbTools {
         return $result;
     }
 
+    function deleteWarehouses()
+    {
+        $result = $this->mysqli->query("DROP TABLE " . self::DBTABLE);
+        return $result;
+    }
+
     public function getAllWarehouses()
     {
         $warehouses = [];

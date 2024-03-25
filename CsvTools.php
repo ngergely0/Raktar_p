@@ -46,6 +46,17 @@ class CsvTools {
         return $lines;
     }
 
+    function importCsv($tmpFilePath, $warehouseDbTool, $shelvesDbTool, $inventoryDbTool) {
+        $csvData = $this->getCsvDataFromTmpFile($tmpFilePath);
+
+        if (empty($csvData)) {
+            echo "Nem található adat a CSV fájlban.";
+            return false;
+        }
+        header("Refresh:0"); 
+    }
+
+
     function getWarehouses($csvData)
     {
         if (empty($csvData)) {
@@ -85,7 +96,8 @@ class CsvTools {
             }
             if ($shelf != $line[$this->idxShelf]){
                 $shelf = $line[$this->idxShelf];
-                $shelves[] = $shelf;
+                $itemName = $line[$this->idxitemName];
+                $shelves[] = [$shelf, $itemName];
             }
         }
         return $shelves;
@@ -148,7 +160,7 @@ class CsvTools {
         $shelvesDbTool->truncateShelves();
         $shelves = $this->getShelves($csvData);
         foreach ($shelves as $shelf){
-            $shelvesDbTool->createShelves($shelf);
+            $shelvesDbTool->createShelves($shelf[0], $shelf[1]);
         }
     }
 
@@ -158,6 +170,17 @@ class CsvTools {
         foreach ($inventory as $items){
             $inventoryDbTool->createInventory($items[0], $items[1]);
         }
+    }
+
+    function getCsvDataFromTmpFile($tmpFilePath) {
+        $lines = [];
+        $csvFile = fopen($tmpFilePath, 'r');
+        while (! feof($csvFile)) {
+            $line = fgetcsv($csvFile);
+            $lines[] = $line;
+        }
+        fclose($csvFile);
+        return $lines;
     }
 
 }

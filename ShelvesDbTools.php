@@ -18,19 +18,28 @@ class ShelvesDbTools {
         $this->mysqli->close();
     }
 
-    function createShelves($shelves)
+    function createShelves($shelves,$itemName)
     {
-        $result = $this->mysqli->query("INSERT INTO " . self::DBTABLE . " (shelf_line) VALUES ('$shelves')");
+        $sql = "INSERT INTO " . self::DBTABLE . " (shelf_line,item_name) VALUES (?, ?)";
+        $stmt = $this->mysqli->prepare($sql);
+        $stmt->bind_param("ss", $shelves, $itemName);
+        $result = $stmt->execute();
         if (!$result) {
-            echo "Hiba történt a $shelves beszúrása közben";
-
+            echo "Hiba történt a leltár beszúrása közben";
+            return false;
         }
-        return $result;
+        return true;
     }
 
     function truncateShelves()
     {
         $result = $this->mysqli->query("TRUNCATE TABLE " . self::DBTABLE);
+        return $result;
+    }
+
+    function deleteShelves()
+    {
+        $result = $this->mysqli->query("DROP TABLE " . self::DBTABLE);
         return $result;
     }
 
@@ -47,16 +56,16 @@ class ShelvesDbTools {
                 continue;
             }
 
-            $shelfLine = $shelf;
+            $shelfLine = $shelf[0];
             $stmt->execute();
         }
 
         return true;
-    }
+    } 
 
     private function findWarehouseId($shelf, $warehouseIds)
     {
-        $shelfPrefix = substr($shelf, 0, 1);
+        $shelfPrefix = substr($shelf[0], 0, 1);
 
         $warehouseMapping = [
             'T' => 1,
@@ -73,6 +82,36 @@ class ShelvesDbTools {
         }
 
         return false;
+    }
+
+    public function searchShelves($needle){
+        $sql = "SELECT * FROM  shelves WHERE name LIKE '%$needle%'";
+        $stmt = $this->mysqli->prepare($sql);
+        //$stmt->bind_param('s',$needle);
+ 
+        $result = $this->mysqli->query($sql);
+ 
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()){
+                $shelves[] = $row;
+            }
+        }
+ 
+        return $shelves;
+    }
+ 
+    public function getShelvesByWarehouseId($warehouseId) {
+        $query = "SELECT shelves.*, warehouses.name AS warehouse_name FROM shelves INNER JOIN warehouses ON shelves.warehouse_id = warehouses.id WHERE shelves.warehouse_id = ?";
+        $stmt = $this->mysqli->prepare($query);
+        $stmt->bind_param("i", $warehouseId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $shelves = [];
+        while ($row = $result->fetch_assoc()) {
+            $shelves[] = $row;
+        }
+        $stmt->close();
+        return $shelves;
     }
 
 }

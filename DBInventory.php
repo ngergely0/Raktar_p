@@ -9,7 +9,7 @@ class DBInventory extends DB implements InventoryInterface
 {
 
     public function createTable(){
-        $query = 'CREATE TABLE IF NOT EXISTS inventory (id int AUTO_INCREMENT PRIMARY KEY, item_name varchar(50), quantity int NOT NULL, shelf_id int NOT NULL)';
+        $query = 'CREATE TABLE IF NOT EXISTS inventory (id int AUTO_INCREMENT PRIMARY KEY, item_name varchar(50), quantity int NOT NULL, min_quantity int NOT NULL)';
         return $this->mysqli->query($query);
     }
 
