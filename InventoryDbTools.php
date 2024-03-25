@@ -43,4 +43,18 @@ class InventoryDbTools {
     }
 
     
+    public function getInventoryByWarehouseId($warehouseId) {
+        $query = "SELECT shelves.* FROM shelves INNER JOIN inventory ON shelves.item_name = inventory.item_name WHERE shelves.warehouse_id = ?";
+        $stmt = $this->mysqli->prepare($query);
+        $stmt->bind_param("i", $warehouseId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $inventory = [];
+        while ($row = $result->fetch_assoc()) {
+            $inventory[] = $row;
+        }
+        $stmt->close();
+        return $inventory;
+    }
+    
 }

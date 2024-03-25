@@ -32,23 +32,23 @@ abstract class AbstractPage {
             <input type="submit" name="submit" value="Küldés">
         </form>';
     }
-    static function showMainTable(array $shelves)
+    static function showMainTable(array $shelves, array $inventory)
     {  
         echo '<table>
                 <tr>
-                    <th>id</th><th>Polcok</th><th>Termékek</th><th class="muveletek" colspan="2">Műveletek</th>
+                    <th>id</th><th>Polcok</th><th>Termékek</th><th>Mennyiség</th><th class="muveletek" colspan="2">Műveletek</th>
                 </tr>';
         foreach ($shelves as $shelf) {
             echo '<tr>';
             echo '<td>' . $shelf['id'] . '</td>';
             echo '<td>' . $shelf['shelf_line'] . '</td>';
-            if (!empty($shelf['inventory'])) {
-                foreach ($shelf['inventory'] as $item) {
-                    echo '<td>' . $item['item_name'] . '</td>';
-                }
-            } else {  
-                echo '<td colspan="2">Nincsenek termékek a polcon</td>';
-            }  
+            echo '<td>' . $shelf['item_name'] . '</td>';
+        foreach ($inventory as $item)
+        {
+            echo '<td>' . $item['quantity'] . '</td>';
+
+        }
+            
                 echo ' <td><form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '"><input type="hidden" name="shelf_id" value="' . $shelf['id'] . '"><input type="submit" name="delete_shelf" value="Törlés"></form></td>';
                 echo ' <td><form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '"><input type="hidden" name="modify_shelf_id" value="' . $shelf['id'] . '"><input type="submit" name="modify_shelf" value="Módosítás"></form></td>';
                 echo '</tr>';

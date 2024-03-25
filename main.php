@@ -100,7 +100,7 @@ if (isset($_POST['import-btn']) && isset($_FILES['input-file']['tmp_name'])) {
     <title>Document</title>
 </head>
 <body>
-<button><a href="index.php"></a></button>
+<button><a href="index.php"></a>Főoldal</button>
 <form method="post" enctype="multipart/form-data">
     <input type="file" name="input-file">
     <button type="submit" name="import-btn">Import</button>
