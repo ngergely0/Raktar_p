@@ -15,6 +15,7 @@ AbstractPage::showDropDown($warehouses);
 AbstractPage::showAddInventory();
 
 
+
 $selectedWarehouseId = null;
  
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -27,9 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $warehouseName = $shelves[0]['warehouse_name'];
             echo '<h2 class="nev">' . (!empty($warehouseName) ? $warehouseName . ' Raktár:' : '') . '</h2>';
             AbstractPage::showMainTable($shelves, $inventory);
-            if(isset($_POST['leltarozas'])){
-                AbstractPage::showMinQtyTable($shelves, $inventory);
-            }
         }
     }
 }
@@ -64,6 +62,7 @@ if (isset($_POST['modify_shelf_submit'])) {
         $modifiedItemName = $_POST['modified_shelf_itemName'];
         $modifiedItemQuantity = $_POST['modified_item_qty'];      
         $shelvesDbTool->modifyShelf($modifyShelfId, $modifiedShelfLine, $modifiedShelfId, $modifiedItemName);
+        $inventoryDbTool->modifyInventory($modifiedItemQuantity, $modifiedItemName);
         if (isset($selectedWarehouseId)) {
             $shelves = $shelvesDbTool->getShelvesByWarehouseId($selectedWarehouseId);
             $inventory = $inventoryDbTool->getInventoryByWarehouseId($selectedWarehouseId); 
@@ -83,6 +82,8 @@ if (isset($_POST['add_inventory'])) {
     if (!empty($newItemName) && !empty($newItemQuantity) && !empty($warehouseId)) {
        
         $shelvesDbTool->addShelf($newItemName, $newShelfName, $newShelfId, $warehouseId);
+
+        $inventoryDbTool->addInventory($newItemName, $newItemQuantity);
         
         $shelves = $shelvesDbTool->getShelvesByWarehouseId($warehouseId);
     } else {
@@ -90,7 +91,7 @@ if (isset($_POST['add_inventory'])) {
     }
 }
 
-echo '<td><form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '"><input type="hidden" name="leltarozas"><input type="submit" name="leltarozas" value="Leltározás"></form></td>';
+
 
 
 

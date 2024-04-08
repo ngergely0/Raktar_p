@@ -62,11 +62,11 @@ class InventoryDbTools {
         return $inventory;
     }
 
-    public function modifyInventory($itemQty, $shelfId)
+    public function modifyInventory($itemQty, $itemName)
     {
-        $sql = "UPDATE " . self::DBTABLE . " SET quantity = ? WHERE id = ?";
+        $sql = "UPDATE " . self::DBTABLE . " SET quantity = ? WHERE item_name = ?";
         $stmt = $this->mysqli->prepare($sql);
-        $stmt->bind_param("ii", $itemQty, $shelfId);
+        $stmt->bind_param("is", $itemQty, $itemName);
         $result = $stmt->execute();
         if (!$result) {
             echo "Error updating shelf: " . $this->mysqli->error;
@@ -74,5 +74,19 @@ class InventoryDbTools {
         }
         return true;
     }
+
+    public function addInventory($itemName, $itemQty)
+    {
+        $sql = "INSERT INTO " . self::DBTABLE . " (item_name, quantity, min_quantity) VALUES (?, ?, 10)";
+        $stmt = $this->mysqli->prepare($sql);
+        $stmt->bind_param("si", $itemName, $itemQty);
+        $result = $stmt->execute();
+        if (!$result) {
+            echo "Error adding shelf: " . $this->mysqli->error;
+            return false;
+        }
+        return true;
+    }
+
         
 }

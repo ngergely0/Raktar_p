@@ -10,14 +10,16 @@ abstract class AbstractPage {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Raktár</title>
-        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="styles.css">
         <link rel="stylesheet" href="fontawesome/css/all.css" type="text/css">
     </head>
     <body>
    
-    <h1>Ráktarak</h1>';
+    <h1>Raktárak</h1>
+
+    <button><a href="main.php">Adatbázis kezelése</a></button>';
     }
- 
+
  
     static function showDropDown(array $warehouses)
     {
@@ -40,45 +42,30 @@ abstract class AbstractPage {
                 </tr>';
         foreach ($shelves as $shelf) {
             echo '<tr>';
-            echo '<td>' . $shelf['id'] . '</td>';
+            echo '<td id='. $shelf['id'] . '>' . $shelf['id'] . '</td>';
             echo '<td>' . $shelf['shelf_line'] . '</td>';
             echo '<td>' . $shelf['item_name'] . '</td>';
 
           
             $quantity = isset($inventory[$shelf['item_name']]) ? $inventory[$shelf['item_name']] : 'N/A';
             echo '<td>' . $quantity . '</td>';
-
             echo '<td><form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '"><input type="hidden" name="shelf_id" value="' . $shelf['id'] . '"><input type="submit" name="delete_shelf" value="Törlés"></form></td>';
             echo '<td><form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '"><input type="hidden" name="modify_shelf_id" value="' . $shelf['id'] . '"><input type="submit" name="modify_shelf" value="Módosítás"></form></td>';
-            echo '</tr>';
-        }
-        echo '</table>';
-    }
-
-    static function showMinQtyTable(array $shelves, array $inventory)
-    {  
-        echo '<table>
-                <tr>
-                    <th>id</th><th>Polcok</th><th>Termékek</th><th>Mennyiség</th><th class="muveletek" colspan="2">Műveletek</th>
-                </tr>';
-        foreach ($shelves as $shelf) {
-
-            $quantity = isset($inventory[$shelf['item_name']]) ? $inventory[$shelf['item_name']] : 'N/A';
-
             if($quantity < 10)
             {
-                echo '<tr>';
-            echo '<td>' . $shelf['id'] . '</td>';
-            echo '<td>' . $shelf['shelf_line'] . '</td>';
-            echo '<td>' . $shelf['item_name'] . '</td>';
-            echo '<td>' . $quantity . '</td>';
-            echo '</tr>';
+                echo '<td>Hiánycikk</td>';
             }
+            else
+            {
+                echo '<td>Elegendő mennyiség</td>';
+            }
+            echo '</tr>';
 
         }
         echo '</table>';
     }
 
+    
     static function showModifyShelf(array $shelfToModify, int $modifyShelfId, array $inventory)
     {
         $quantity = isset($inventory[$shelfToModify['item_name']]) ? $inventory[$shelfToModify['item_name']] : 'N/A';

@@ -76,15 +76,15 @@ if (isset($_POST['import-btn']) && isset($_FILES['input-file']['tmp_name'])) {
         if(!DB::databaseExists()){
             DB::createDatabase();
         }
-        else{
-            echo 'Létezik';
-        }
     }
 
     if(isset($_POST['delete-database'])){
         $db->deleteDatabase();
     }
 
+    if(isset($_POST['leltarozas'])){
+        AbstractPage::showMinQtyTable($shelves, $inventory);
+    }
 
 
 ?>
@@ -96,11 +96,11 @@ if (isset($_POST['import-btn']) && isset($_FILES['input-file']['tmp_name'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="fontawesome/css/all.css" type="text/css">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="styles.css">
     <title>Document</title>
 </head>
 <body>
-<button><a href="index.php"></a>Főoldal</button>
+<button><a href="index.php">Főoldal</a></button>
 <form method="post" enctype="multipart/form-data">
     <input type="file" name="input-file">
     <button type="submit" name="import-btn">Import</button>
