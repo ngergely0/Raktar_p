@@ -87,8 +87,7 @@ class ShelvesDbTools {
     public function searchShelves($needle){
         $sql = "SELECT * FROM  shelves WHERE name LIKE '%$needle%'";
         $stmt = $this->mysqli->prepare($sql);
-        //$stmt->bind_param('s',$needle);
- 
+       
         $result = $this->mysqli->query($sql);
  
         if ($result->num_rows > 0) {

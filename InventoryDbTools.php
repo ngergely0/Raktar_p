@@ -62,7 +62,7 @@ class InventoryDbTools {
         return $inventory;
     }
 
-    /*public function modifyInventory($itemQty, $shelfId)
+    public function modifyInventory($itemQty, $shelfId)
     {
         $sql = "UPDATE " . self::DBTABLE . " SET quantity = ? WHERE id = ?";
         $stmt = $this->mysqli->prepare($sql);
@@ -73,9 +73,6 @@ class InventoryDbTools {
             return false;
         }
         return true;
-    }*/
-    
-    
-    
-    
+    }
+        
 }

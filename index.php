@@ -27,11 +27,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $warehouseName = $shelves[0]['warehouse_name'];
             echo '<h2 class="nev">' . (!empty($warehouseName) ? $warehouseName . ' Raktár:' : '') . '</h2>';
             AbstractPage::showMainTable($shelves, $inventory);
+            if(isset($_POST['leltarozas'])){
+                AbstractPage::showMinQtyTable($shelves, $inventory);
+            }
         }
     }
 }
 
-// Delete shelf
 if (isset($_POST['delete_shelf'])) {
     if (isset($_POST['shelf_id'])) {
         $shelfIdToDelete = $_POST['shelf_id'];
@@ -43,7 +45,7 @@ if (isset($_POST['delete_shelf'])) {
 }
 
 
-// Modify shelf
+
 if (isset($_POST['modify_shelf'])) {
     if (isset($_POST['modify_shelf_id'])) {
         $modifyShelfId = $_POST['modify_shelf_id'];
@@ -53,7 +55,7 @@ if (isset($_POST['modify_shelf'])) {
     }
 }
 
-// Submit modified shelf
+
 if (isset($_POST['modify_shelf_submit'])) {
     if (isset($_POST['modify_shelf_id'])) {
         $modifyShelfId = $_POST['modify_shelf_id'];
@@ -79,14 +81,18 @@ if (isset($_POST['add_inventory'])) {
     $warehouseId = $_POST['warehouse_id'];
 
     if (!empty($newItemName) && !empty($newItemQuantity) && !empty($warehouseId)) {
-        // Assuming you have an addInventory method in InventoryDbTools
+       
         $shelvesDbTool->addShelf($newItemName, $newShelfName, $newShelfId, $warehouseId);
-        // Assuming you have a method to retrieve shelves by warehouse ID
+        
         $shelves = $shelvesDbTool->getShelvesByWarehouseId($warehouseId);
     } else {
         echo "Please fill out all fields!";
     }
 }
+
+echo '<td><form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '"><input type="hidden" name="leltarozas"><input type="submit" name="leltarozas" value="Leltározás"></form></td>';
+
+
 
 
 ?>
