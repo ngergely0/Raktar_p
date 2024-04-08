@@ -82,9 +82,7 @@ if (isset($_POST['import-btn']) && isset($_FILES['input-file']['tmp_name'])) {
         $db->deleteDatabase();
     }
 
-    if(isset($_POST['leltarozas'])){
-        AbstractPage::showMinQtyTable($shelves, $inventory);
-    }
+   
 
 
 ?>

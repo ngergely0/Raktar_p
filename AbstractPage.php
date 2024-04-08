@@ -110,5 +110,12 @@ abstract class AbstractPage {
             <input type="submit" name="add_inventory" value="Hozzáad">
             </form>';
     }
+
+    static function showPdfExport()
+    {
+        echo '<form method="post" action="pdf.php">
+                <button id="btn-pdf" name="btn-pdf" title="Pdf">PDF</button>
+                </form>';
+    }
     
 }

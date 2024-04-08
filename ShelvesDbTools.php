@@ -165,4 +165,11 @@ class ShelvesDbTools {
         return $shelf;
     }
 
+    public function getAll(): array
+    {
+        $query = "SELECT warehouses.name, shelves.shelf_line, shelves.id, shelves.item_name, inventory.quantity FROM shelves INNER JOIN inventory ON inventory.item_name = shelves.item_name INNER JOIN warehouses ON warehouses.id = shelves.warehouse_id  ORDER BY warehouses.name;";
+ 
+        return $this->mysqli->query($query)->fetch_all(MYSQLI_ASSOC);
+    }
+
 }

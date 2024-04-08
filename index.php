@@ -13,6 +13,7 @@ AbstractPage::insertHtmlHead();
 $warehouses = $warehousesDbTool->getAllWarehouses();
 AbstractPage::showDropDown($warehouses);
 AbstractPage::showAddInventory();
+AbstractPage::showPdfExport();
 
 
 
@@ -90,6 +91,9 @@ if (isset($_POST['add_inventory'])) {
         echo "Please fill out all fields!";
     }
 }
+
+
+
 
 
 

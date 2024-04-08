@@ -11,6 +11,19 @@ class PDF extends tFPDF
 
 
 // Colored table
+function Header()
+{
+    // Logo
+    $this->Image('img/warehouse-logo.png',10,6,30);
+    // Arial bold 15
+    $this->SetFont('DejaVu','',26);
+    // Move to the right
+    $this->Cell(80);
+    // Title
+    $this->Cell(30,10,'Raktár',0,0,'C');
+    // Line break
+    $this->Ln(30);
+}
 function FancyTable($header, $data)
 {
     // Colors, line width and bold font
@@ -51,6 +64,8 @@ $shelvesDbTool = new ShelvesDbTools();
 $data = $shelvesDbTool->getAll();
 // Column headings
 $header = array('Raktár', 'Polc', 'Termék', 'Mennyiség', 'id');
+
+
 // Data loading
 $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
 $pdf->SetFont('DejaVu','',14);
