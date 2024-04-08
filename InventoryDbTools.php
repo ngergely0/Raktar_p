@@ -44,17 +44,38 @@ class InventoryDbTools {
 
     
     public function getInventoryByWarehouseId($warehouseId) {
-        $query = "SELECT shelves.* FROM shelves INNER JOIN inventory ON shelves.item_name = inventory.item_name WHERE shelves.warehouse_id = ?";
+        $query = "SELECT s.item_name, i.quantity 
+                  FROM shelves s
+                  INNER JOIN inventory i ON s.item_name = i.item_name
+                  WHERE s.warehouse_id = ?";
         $stmt = $this->mysqli->prepare($query);
         $stmt->bind_param("i", $warehouseId);
         $stmt->execute();
         $result = $stmt->get_result();
+    
         $inventory = [];
         while ($row = $result->fetch_assoc()) {
-            $inventory[] = $row;
+            $inventory[$row['item_name']] = $row['quantity'];
         }
+    
         $stmt->close();
         return $inventory;
     }
+
+    /*public function modifyInventory($itemQty, $shelfId)
+    {
+        $sql = "UPDATE " . self::DBTABLE . " SET quantity = ? WHERE id = ?";
+        $stmt = $this->mysqli->prepare($sql);
+        $stmt->bind_param("ii", $itemQty, $shelfId);
+        $result = $stmt->execute();
+        if (!$result) {
+            echo "Error updating shelf: " . $this->mysqli->error;
+            return false;
+        }
+        return true;
+    }*/
+    
+    
+    
     
 }
