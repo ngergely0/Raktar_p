@@ -14,6 +14,8 @@ $warehouses = $warehousesDbTool->getAllWarehouses();
 AbstractPage::showDropDown($warehouses);
 AbstractPage::showAddInventory();
 AbstractPage::showPdfExport();
+AbstractPage::showMailButton();
+
 
 
 

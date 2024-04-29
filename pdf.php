@@ -72,5 +72,5 @@ $pdf->SetFont('DejaVu','',14);
 $pdf->AddPage();
 $pdf->SetLeftMargin(18);
 $pdf->FancyTable($header,$data);
-$pdf->Output();
+$pdf->Output('F', 'pdf/raktar.pdf');
 ?>

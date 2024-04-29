@@ -8,9 +8,11 @@ require_once('CsvTools.php');
 require_once('DBShelves.php');
 require_once('DBInventory.php');
 require_once('DBWarehouses.php');
+require_once('DBUser.php');
 require_once('WarehousesDbTools.php');
 require_once('InventoryDbTools.php');
 require_once('ShelvesDbTools.php');
+require_once('UserDbTools.php');
 
 require_once('DB.php');
 $db = new DB();
@@ -20,9 +22,11 @@ $csvtools = new CsvTools();
 $warehousesDbTool = new WarehousesDbTools();
 $shelvesDbTool = new ShelvesDbTools();
 $inventoryDbTool = new InventoryDbTools();
+$userDbTool = new UserDbTools();
 $dbWarehouses = new DBWarehouses();
 $dbInventory = new DBInventory();
 $dbShelves = new DBShelves();
+$dbUser = new DBUser();
 
 
 
@@ -34,7 +38,8 @@ if (isset($_POST['import-btn']) && isset($_FILES['input-file']['tmp_name'])) {
 
     $createWarehousesTable = $dbWarehouses->createTable();
     $createShelvesTable = $dbShelves->createTable();
-    $createInventoryTable = $dbInventory->createTable();    
+    $createInventoryTable = $dbInventory->createTable();
+    $createUserTable = $dbUser->createTable();    
 
     $getWarehouseId = $csvtools->getWarehouseId($csvData);
     $getShelves = $csvtools->getShelves($csvData);
@@ -43,6 +48,7 @@ if (isset($_POST['import-btn']) && isset($_FILES['input-file']['tmp_name'])) {
     $truncateWarehousesTable = $csvtools->truncateWarehousesTable($warehousesDbTool,$csvData);
     $truncateShelvesTable = $csvtools->truncateShelvesTable($shelvesDbTool,$csvData);
     $truncateInventoryTable = $csvtools->truncateInventoryTable($inventoryDbTool, $csvData);
+    //$truncateUserTable = $csvtools->truncateUserTable()
 
 
 
@@ -52,17 +58,19 @@ if (isset($_POST['import-btn']) && isset($_FILES['input-file']['tmp_name'])) {
     if(isset($_POST['clear-tables-btn'])) {
         $warehousesDbTool->truncateWarehouses();
         $shelvesDbTool->truncateShelves();
-        $inventoryDbTool->truncateInventory();   
+        $inventoryDbTool->truncateInventory();
+        $userDbTool->truncateUser();   
         $dbWarehouses->createTable();
         $dbShelves->createTable();
         $dbInventory->createTable();
-        
+        $dbUser->createTable();        
     }
     
     if(isset($_POST['create-tables'])) {
         $dbWarehouses->createTable();
         $dbShelves->createTable();
-        $dbInventory->createTable();    
+        $dbInventory->createTable();
+        $dbUser->createTable();    
     
     }
     
@@ -70,6 +78,7 @@ if (isset($_POST['import-btn']) && isset($_FILES['input-file']['tmp_name'])) {
         $warehousesDbTool->deleteWarehouses();
         $shelvesDbTool->deleteShelves();
         $inventoryDbTool->deleteInventory();
+        $userDbTool->deleteUsers();
     }
 
     if(isset($_POST['create-database'])) {
@@ -98,7 +107,7 @@ if (isset($_POST['import-btn']) && isset($_FILES['input-file']['tmp_name'])) {
     <title>Document</title>
 </head>
 <body>
-<button><a href="index.php">Főoldal</a></button>
+<button><a href="login.php">Login</a></button>
 <form method="post" enctype="multipart/form-data">
     <input type="file" name="input-file">
     <button type="submit" name="import-btn">Import</button>

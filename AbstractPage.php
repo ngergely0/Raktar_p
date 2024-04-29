@@ -117,5 +117,78 @@ abstract class AbstractPage {
                 <button id="btn-pdf" name="btn-pdf" title="Pdf">PDF</button>
                 </form>';
     }
+
+    static function showMailButton(){
+        echo '
+            
+            <form method="post" action="mail.php" class ="Mail">
+                <button id="btn-mail" name="btn-mail" title="Mail">
+                <i class="fa-solid fa-envelope"></i>&nbsp;Mail</button>
+            </form>
+            ';
+    }
+
+    static function login()
+    {
+        echo ' <!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bejelentkezés és Regisztráció</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<div class="container" id="loginForm">
+    <h2>Bejelentkezés</h2>
+    <form action="#">
+        <input type="email" name="Email" id="Email" placeholder="Email" required><br>
+        <input type="password" name="Jelszó" id="Jelszó" placeholder="Jelszó" required><br>
+        <input type="submit" id="Bejelentkezés" name="Bejelentkezés" value="Bejelentkezés">
+    </form>
+    <div class="options">
+        <a href="registration.php">Regisztráció</a>
+    </div>
+</div>
+
+</body>
+</html>';
     
+
+   
+    
+    }
+
+
+static function registration()
+    {
+        echo ' <!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bejelentkezés és Regisztráció</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<div class="container" id="registrationForm">
+    <h2>Regisztráció</h2>
+    <form method= "post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">
+        <input type="text" id="Név" name="Név" placeholder="Név" required><br>
+        <input type="email" id="Email" name="Email" placeholder="Email" required><br>
+        <input type="password" id="Jelszó" name="Jelszó" placeholder="Jelszó" required><br>
+        <input type="password" id="Jelszó2" name="Jelszó2" placeholder="Jelszó újra" required><br>
+        <input type="submit" id="Regisztráció" name="Regisztráció" value="Regisztráció">
+    </form>
+    <div class="options">
+        <a href="login.php">Vissza a bejelentkezéshez</a>
+    </div>
+</div>
+
+</body>
+</html>';
+
+    }
 }
