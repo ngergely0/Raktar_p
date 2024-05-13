@@ -29,9 +29,9 @@ class UserDbTools {
     {
         $token = $this->getNewToken();
         $date = $this->getValidUntil();
-        $sql = "INSERT INTO " . self::DBTABLE . " (name,email,password,token,token_valid_until) VALUES (?, ?, ?, '$token', '$date')";
+        $sql = "INSERT INTO " . self::DBTABLE . " (name,email,password,token,token_valid_until) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->mysqli->prepare($sql);
-        $stmt->bind_param("sss", $name, $email, $password);
+        $stmt->bind_param("sssss", $name, $email, $password, $token, $date);
         $result = $stmt->execute();
         if (!$result) {
             echo "Hiba történt!";
@@ -50,6 +50,33 @@ class UserDbTools {
     {
         $result = $this->mysqli->query("DROP TABLE " . self::DBTABLE);
         return $result;
+    }
+
+    function getUserByEmail($email)
+    {
+       
+            $query = "SELECT token FROM " . self::DBTABLE . " WHERE email = ?";
+            $stmt = $this->mysqli->prepare($query);
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $stmt->bind_result($token);
+            $stmt->fetch();
+            $stmt->close();
+            return $token;
+        
+    }
+
+    public function updateUsers($token)
+    {
+        $sql = "UPDATE " . self::DBTABLE . " SET is_active = true WHERE token=? ";
+        $stmt = $this->mysqli->prepare($sql);
+        $stmt->bind_param("s", $token);
+        $result = $stmt->execute();
+        if (!$result) {
+            echo "Error updating shelf: " . $this->mysqli->error;
+            return false;
+        }
+        return true;
     }
 
     /*public function getUserByEmail($email) {

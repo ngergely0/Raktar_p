@@ -11,9 +11,6 @@ $mail = new PHPMailer(true);
 $userDbTool = new UserDbTools();
 
 
-
-
-
 if (isset($_POST['Regisztráció'])) {
     
     $name = $_POST['Név'];
@@ -26,6 +23,8 @@ if (isset($_POST['Regisztráció'])) {
     }
     else{
     $result = $userDbTool->createUsers($name, $email, $password);
+    $token = $userDbTool->getUserByEmail($email);
+    
     try {
      
         $mail->isSMTP();                                            
@@ -42,10 +41,11 @@ if (isset($_POST['Regisztráció'])) {
         //Attachments
               
         
+
         //Content
         $mail->isHTML(true);                                  
         $mail->Subject = 'Validalas';
-        $mail->Body    = 'Itt a link a megerősítéshez: <a href="http://localhost:8083/Raktar_p/validation.php">Megerősítés</a>';
+        $mail->Body    = 'Itt a link a megerősítéshez: <a href="http://localhost:8083/Raktar_p/validation.php?token='.$token.'">Megerősítés</a>';
         $mail->AltBody = 'Valami';
     
         $mail->send();

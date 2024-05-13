@@ -11,6 +11,7 @@ if (isset($_POST['Bejelentkezés'])) {
     
     $email = $_POST['Email'];
     $password = $_POST['Jelszó'];
+    $user = $userDbTool->getUserByEmail($email);
    
 }
 
