@@ -25,13 +25,13 @@ class UserDbTools {
         return $validUntil->format("Y-m-d H:i:s");
     }
 
-    function createUsers($name, $email, $password)
+    function createUsers($name, $email, $password, $privilege)
     {
         $token = $this->getNewToken();
         $date = $this->getValidUntil();
-        $sql = "INSERT INTO " . self::DBTABLE . " (name,email,password,token,token_valid_until) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO " . self::DBTABLE . " (name,email,password,token,token_valid_until,privilege) VALUES (?, ?, ?, ?, ?,?)";
         $stmt = $this->mysqli->prepare($sql);
-        $stmt->bind_param("sssss", $name, $email, $password, $token, $date);
+        $stmt->bind_param("ssssss", $name, $email, $password, $token, $date, $privilege);
         $result = $stmt->execute();
         if (!$result) {
             echo "Hiba történt!";
@@ -66,30 +66,41 @@ class UserDbTools {
         
     }
 
-    public function updateUsers($token)
+    public function updateUsers($registrationDate, $token)
     {
-        $sql = "UPDATE " . self::DBTABLE . " SET is_active = true WHERE token=? ";
+        $sql = "UPDATE users SET registration_date=?, is_active=true WHERE token=?";
         $stmt = $this->mysqli->prepare($sql);
-        $stmt->bind_param("s", $token);
-        $result = $stmt->execute();
-        if (!$result) {
-            echo "Error updating shelf: " . $this->mysqli->error;
-            return false;
-        }
-        return true;
+        $stmt->bind_param("ss", $registrationDate, $token);
+        $stmt->execute();
     }
 
-    /*public function getUserByEmail($email) {
-        $query = "SELECT id, warehouses.name AS warehouse_name FROM shelves INNER JOIN warehouses ON shelves.warehouse_id = warehouses.id WHERE shelves.warehouse_id = ?";
+    function getUserPasswordByEmail($email)
+    {
+        $query = "SELECT users.password FROM users WHERE email = ?";
         $stmt = $this->mysqli->prepare($query);
-        $stmt->bind_param("i", $warehouseId);
+        $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
-        $shelves = [];
-        while ($row = $result->fetch_assoc()) {
-            $shelves[] = $row;
-        }
+        $login = $result->fetch_assoc();
         $stmt->close();
-        return $shelves;
-    }*/
+        $password = '';
+        if(!empty($login['password']))
+        {
+            $password = $login['password'];
+        }
+        return $password;
+    }
+
+    function getUserPrivilegeByEmail($email)
+    {
+        $query = "SELECT privilege FROM " . self::DBTABLE . " WHERE email = ?";
+            $stmt = $this->mysqli->prepare($query);
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $stmt->bind_result($privilege);
+            $stmt->fetch();
+            $stmt->close();
+            return $privilege;
+    }
+
 }

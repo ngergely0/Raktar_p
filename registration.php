@@ -13,6 +13,7 @@ $userDbTool = new UserDbTools();
 
 if (isset($_POST['Regisztráció'])) {
     
+    $privilege = $_POST['privilegeDropdown'];
     $name = $_POST['Név'];
     $email = $_POST['Email'];
     $password = $_POST['Jelszó'];
@@ -22,7 +23,7 @@ if (isset($_POST['Regisztráció'])) {
         echo "A jelszavak nem egyeznek!";
     }
     else{
-    $result = $userDbTool->createUsers($name, $email, $password);
+    $result = $userDbTool->createUsers($name, $email, $password, $privilege);
     $token = $userDbTool->getUserByEmail($email);
     
     try {
@@ -45,19 +46,21 @@ if (isset($_POST['Regisztráció'])) {
         //Content
         $mail->isHTML(true);                                  
         $mail->Subject = 'Validalas';
-        $mail->Body    = 'Itt a link a megerősítéshez: <a href="http://localhost:8083/Raktar_p/validation.php?token='.$token.'">Megerősítés</a>';
+        $mail->Body    = 'Itt a link a megerősítéshez: <a href="http://localhost:8083/Raktar_p/login.php?token='.$token.'">Megerősítés</a>';
         $mail->AltBody = 'Valami';
     
         $mail->send();
         echo 'Message has been sent';
-    } catch (Exception $e) {
+        } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-    }    
-    header ('Location: login.php');
-    exit;
-    }
+        }    
+        header ('Location: login.php');
+        exit;
+        }
    
 }
+
+
 
 AbstractPage::registration();
 

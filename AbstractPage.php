@@ -65,6 +65,26 @@ abstract class AbstractPage {
         echo '</table>';
     }
 
+    static function showMainTable2(array $shelves, array $inventory)
+    {  
+        echo '<table>
+                <tr>
+                    <th>id</th><th>Polcok</th><th>Termékek</th><th>Mennyiség</th>
+                </tr>';
+        foreach ($shelves as $shelf) {
+            echo '<tr>';
+            echo '<td id='. $shelf['id'] . '>' . $shelf['id'] . '</td>';
+            echo '<td>' . $shelf['shelf_line'] . '</td>';
+            echo '<td>' . $shelf['item_name'] . '</td>';
+
+          
+            $quantity = isset($inventory[$shelf['item_name']]) ? $inventory[$shelf['item_name']] : 'N/A';
+            echo '<td>' . $quantity . '</td>';
+            
+        }
+        echo '</table>';
+    }
+
     
     static function showModifyShelf(array $shelfToModify, int $modifyShelfId, array $inventory)
     {
@@ -142,7 +162,7 @@ abstract class AbstractPage {
 
 <div class="container" id="loginForm">
     <h2>Bejelentkezés</h2>
-    <form action="#">
+    <form method= "post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">
         <input type="email" name="Email" id="Email" placeholder="Email" required><br>
         <input type="password" name="Jelszó" id="Jelszó" placeholder="Jelszó" required><br>
         <input type="submit" id="Bejelentkezés" name="Bejelentkezés" value="Bejelentkezés">
@@ -176,6 +196,10 @@ static function registration()
 <div class="container" id="registrationForm">
     <h2>Regisztráció</h2>
     <form method= "post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">
+        <select id="privilegeDropdown" name="privilegeDropdown">
+        <option value="User">User</option>
+        <option value="Admin">Admin</option>
+        </select>
         <input type="text" id="Név" name="Név" placeholder="Név" required><br>
         <input type="email" id="Email" name="Email" placeholder="Email" required><br>
         <input type="password" id="Jelszó" name="Jelszó" placeholder="Jelszó" required><br>
